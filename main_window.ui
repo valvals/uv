@@ -17,8 +17,8 @@
    <widget class="QPushButton" name="pushButton_testExpo">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>170</y>
+      <x>70</x>
+      <y>500</y>
       <width>80</width>
       <height>22</height>
      </rect>
@@ -30,14 +30,24 @@
    <widget class="QPushButton" name="pushButton_spectr">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>170</y>
+      <x>170</x>
+      <y>500</y>
       <width>80</width>
       <height>22</height>
      </rect>
     </property>
     <property name="text">
      <string>get spectr</string>
+    </property>
+   </widget>
+   <widget class="QCustomPlot" name="widget_plot" native="true">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>30</y>
+      <width>691</width>
+      <height>451</height>
+     </rect>
     </property>
    </widget>
   </widget>
@@ -53,6 +63,14 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header location="global">qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

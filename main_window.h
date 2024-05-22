@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QSerialPort>
 #include <QSerialPortInfo>
+#include <qcustomplot.h>
 
 ;// hack unterminated warning pack
 #pragma pack(push,1)
