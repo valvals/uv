@@ -11,7 +11,7 @@ struct SpectrumData {
   unsigned short  dummy1[14];                   
   short int       black1[13];                   
   unsigned short  dummy2[3];                    
-  short int       spectrum[spectr_values_size];
+  short int       spectrum[256];
   unsigned short  dummy[14];                  
 };  //!< Spectrum data structure
 Q_DECLARE_METATYPE(SpectrumData)
