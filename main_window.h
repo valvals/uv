@@ -11,7 +11,7 @@ struct SpectrumData {
   unsigned short  dummy1[14];                   
   short int       black1[13];                   
   unsigned short  dummy2[3];                    
-  short int       spectrum[256];
+  short int       spectrum[3648];
   unsigned short  dummy[14];                  
 };  //!< Spectrum data structure
 Q_DECLARE_METATYPE(SpectrumData)
@@ -35,5 +35,9 @@ private:
     QSerialPort m_spectrometr;
     QString m_port_name;
     bool m_is_spectrometr_connected;
+private slots:
+    void readStmData();
+    void on_pushButton_testExpo_clicked();
+    void on_pushButton_spectr_clicked();
 };
 #endif // MAIN_WINDOW_H
