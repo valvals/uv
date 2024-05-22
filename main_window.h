@@ -5,6 +5,17 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 
+;// hack unterminated warning pack
+#pragma pack(push,1)
+struct SpectrumData {
+  unsigned short  dummy1[14];                   
+  short int       black1[13];                   
+  unsigned short  dummy2[3];                    
+  short int       spectrum[spectr_values_size];
+  unsigned short  dummy[14];                  
+};  //!< Spectrum data structure
+Q_DECLARE_METATYPE(SpectrumData)
+#pragma pack(pop)
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
