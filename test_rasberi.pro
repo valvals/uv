@@ -7,11 +7,13 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     main_window.cpp \
-    qcustomplot.cpp
+    qcustomplot.cpp \
+    stm_spectrometr.cpp
 
 HEADERS += \
     main_window.h \
-    qcustomplot.h
+    qcustomplot.h \
+    stm_spectrometr.h
 
 FORMS += \
     main_window.ui
