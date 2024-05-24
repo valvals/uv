@@ -22,15 +22,17 @@ public:
 private:
     Ui::MainWindow *ui;
     stm_spectrometr m_stm;
-    QCloseEvent *m_event;
 
 
 private slots:
     void on_pushButton_spectr_clicked();
     void showPlot(QVector<double>& channels,
                   QVector<double>& values, double max);
+    void exit();
 
     // QWidget interface
+    void on_comboBox_expositions_currentIndexChanged(int index);
+
 protected:
     void closeEvent(QCloseEvent *event);
 };

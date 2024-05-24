@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->widget_plot->addGraph();
     ui->widget_plot->xAxis->setRange(1,3648);
     connect(&m_stm,SIGNAL(data_is_ready(QVector<double>&,QVector<double>&, double)),SLOT(showPlot(QVector<double>&,QVector<double>&, double)));
+    connect(&m_stm,SIGNAL(ready_to_close()),this,SLOT(exit()));
 }
 
 MainWindow::~MainWindow()
@@ -30,17 +31,41 @@ void MainWindow::showPlot(QVector<double> &channels,
                           QVector<double> &values,
                           double max)
 {
-   //qDebug()<<channels.size()<<" --- "<<values.size();
-   ui->widget_plot->graph(0)->setData(channels,values);
-   ui->widget_plot->xAxis->setRange(1,channels.size());
-   ui->widget_plot->yAxis->setRange(0,max);
-   ui->widget_plot->replot();
-   QTimer::singleShot(50,&m_stm,SLOT(getData()));
+    //qDebug()<<channels.size()<<" --- "<<values.size();
+    ui->widget_plot->graph(0)->setData(channels,values);
+    ui->widget_plot->xAxis->setRange(1,channels.size());
+    ui->widget_plot->yAxis->setRange(0,max);
+    ui->widget_plot->replot();
+    if(m_stm.is_ready_to_close()){
+        qApp->exit(0);
+    }
+    QTimer::singleShot(50,&m_stm,SLOT(getData()));
+}
+
+void MainWindow::exit()
+{
+    qApp->exit(0);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-  m_stm.setIs_ready_to_close(true);
-  event->ignore();
+    qDebug()<<"close event....";
+    if(m_stm.is_ready_to_close()){
+        event->accept();
+        return;
+    }
+    m_stm.setIs_ready_to_close(true);
+    event->ignore();
+}
+
+
+void MainWindow::on_comboBox_expositions_currentIndexChanged(int index)
+{
+    static bool is_first = true;
+    if(is_first){
+        is_first = false;
+        return;
+    }
+    m_stm.change_exposition(1000);
 }
 
