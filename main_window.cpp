@@ -5,16 +5,23 @@
 #include "unistd.h"
 
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->comboBox_expositions->addItems({"1ms","10ms","100ms","200ms","300ms","500ms","700ms","900ms","1s","1.2s","1.4s","1.5s","1.7s","1.8s"});
+    jsn::getJsonArrayFromFile("expo_list.json",m_expositions);
+    qDebug()<<"Expo size: "<<m_expositions.size();
+    for(int i=0;i<m_expositions.size();++i){
+        ui->comboBox_expositions->addItems(m_expositions[i].toObject().keys());
+    }
+    //ui->comboBox_expositions->addItems({"1ms","10ms","100ms","200ms","300ms","500ms","700ms","900ms","1s","1.2s","1.4s","1.5s","1.7s","1.8s"});
     ui->widget_plot->addGraph();
     ui->widget_plot->xAxis->setRange(1,3648);
     connect(&m_stm,SIGNAL(data_is_ready(QVector<double>&,QVector<double>&, double)),SLOT(showPlot(QVector<double>&,QVector<double>&, double)));
     connect(&m_stm,SIGNAL(ready_to_close()),this,SLOT(exit()));
+    QTimer::singleShot(500,&m_stm,SLOT(getData()));
 }
 
 MainWindow::~MainWindow()
@@ -66,6 +73,7 @@ void MainWindow::on_comboBox_expositions_currentIndexChanged(int index)
         is_first = false;
         return;
     }
-    m_stm.change_exposition(1000);
+    auto value = m_expositions[index].toObject().value(ui->comboBox_expositions->currentText()).toDouble();
+    m_stm.change_exposition(value);
 }
 

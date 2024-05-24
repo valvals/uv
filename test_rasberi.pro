@@ -5,12 +5,14 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++17
 
 SOURCES += \
+    json_utils.cpp \
     main.cpp \
     main_window.cpp \
     qcustomplot.cpp \
     stm_spectrometr.cpp
 
 HEADERS += \
+    json_utils.h \
     main_window.h \
     qcustomplot.h \
     stm_spectrometr.h

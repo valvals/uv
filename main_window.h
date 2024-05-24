@@ -5,7 +5,7 @@
 #include <QCloseEvent>
 #include <qcustomplot.h>
 #include <stm_spectrometr.h>
-
+#include "json_utils.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,7 +22,7 @@ public:
 private:
     Ui::MainWindow *ui;
     stm_spectrometr m_stm;
-
+    QJsonArray m_expositions;
 
 private slots:
     void on_pushButton_spectr_clicked();
