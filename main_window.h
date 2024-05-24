@@ -2,6 +2,7 @@
 #define MAIN_WINDOW_H
 
 #include <QMainWindow>
+#include <QCloseEvent>
 #include <qcustomplot.h>
 #include <stm_spectrometr.h>
 
@@ -21,11 +22,16 @@ public:
 private:
     Ui::MainWindow *ui;
     stm_spectrometr m_stm;
+    QCloseEvent *m_event;
 
 
 private slots:
-    void on_pushButton_testExpo_clicked();
     void on_pushButton_spectr_clicked();
-    void showPlot(QVector<double>& channels, QVector<double>& values, double max);
+    void showPlot(QVector<double>& channels,
+                  QVector<double>& values, double max);
+
+    // QWidget interface
+protected:
+    void closeEvent(QCloseEvent *event);
 };
 #endif // MAIN_WINDOW_H
