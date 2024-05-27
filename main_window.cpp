@@ -2,7 +2,6 @@
 #include "ui_main_window.h"
 #include "QDebug"
 #include <cstring>
-#include "unistd.h"
 
 
 
@@ -21,17 +20,17 @@ MainWindow::MainWindow(QWidget *parent)
     ui->widget_plot->xAxis->setRange(1,3648);
     connect(&m_stm,SIGNAL(data_is_ready(QVector<double>&,QVector<double>&, double)),SLOT(showPlot(QVector<double>&,QVector<double>&, double)));
     connect(&m_stm,SIGNAL(ready_to_close()),this,SLOT(exit()));
-    QTimer::singleShot(500,&m_stm,SLOT(getData()));
+    if(m_stm.getIs_spectrometr_connected()){
+        ui->pushButton_spectr->setText("stop");
+        QTimer::singleShot(500,&m_stm,SLOT(getData()));
+    }else{
+        ui->pushButton_spectr->setText("disconnected");
+    }
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::on_pushButton_spectr_clicked()
-{
-    m_stm.getData();
 }
 
 void MainWindow::showPlot(QVector<double> &channels,
@@ -57,6 +56,10 @@ void MainWindow::exit()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     qDebug()<<"close event....";
+    if(m_stm.getIs_spectrometr_connected()==false){
+        event->accept();
+        return;
+    }
     if(m_stm.is_ready_to_close()){
         event->accept();
         return;
@@ -74,6 +77,22 @@ void MainWindow::on_comboBox_expositions_currentIndexChanged(int index)
         return;
     }
     auto value = m_expositions[index].toObject().value(ui->comboBox_expositions->currentText()).toDouble();
+    qDebug()<<"exposition value: "<<value;
     m_stm.change_exposition(value);
 }
 
+
+void MainWindow::on_pushButton_spectr_toggled(bool checked)
+{
+    if(m_stm.getIs_spectrometr_connected()==false){
+        return;
+    }
+    if(checked){
+        ui->pushButton_spectr->setText("stop");
+        m_stm.setIs_cycle_update(true);
+        m_stm.getData();
+    }else{
+        ui->pushButton_spectr->setText("start");
+        m_stm.setIs_cycle_update(false);
+    }
+}

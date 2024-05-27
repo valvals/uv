@@ -1,5 +1,5 @@
 QT       += core gui serialport printsupport
-
+TARGET = uv
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
@@ -9,12 +9,14 @@ SOURCES += \
     main.cpp \
     main_window.cpp \
     qcustomplot.cpp \
+    qrc_files_restorer.cpp \
     stm_spectrometr.cpp
 
 HEADERS += \
     json_utils.h \
     main_window.h \
     qcustomplot.h \
+    qrc_files_restorer.h \
     stm_spectrometr.h
 
 FORMS += \
@@ -24,3 +26,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    res.qrc

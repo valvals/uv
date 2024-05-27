@@ -25,13 +25,12 @@ private:
     QJsonArray m_expositions;
 
 private slots:
-    void on_pushButton_spectr_clicked();
     void showPlot(QVector<double>& channels,
                   QVector<double>& values, double max);
     void exit();
-
     // QWidget interface
     void on_comboBox_expositions_currentIndexChanged(int index);
+    void on_pushButton_spectr_toggled(bool checked);
 
 protected:
     void closeEvent(QCloseEvent *event);

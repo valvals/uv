@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>775</width>
     <height>600</height>
    </rect>
   </property>
@@ -23,14 +23,20 @@
    <widget class="QPushButton" name="pushButton_spectr">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>500</y>
-      <width>80</width>
-      <height>22</height>
+      <x>60</x>
+      <y>450</y>
+      <width>661</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>get spectr</string>
+     <string>start</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QCustomPlot" name="widget_plot" native="true">
@@ -38,8 +44,8 @@
      <rect>
       <x>50</x>
       <y>70</y>
-      <width>691</width>
-      <height>411</height>
+      <width>681</width>
+      <height>271</height>
      </rect>
     </property>
    </widget>
@@ -59,8 +65,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>26</height>
+     <width>775</width>
+     <height>30</height>
     </rect>
    </property>
   </widget>

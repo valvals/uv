@@ -25,6 +25,8 @@ public:
     void setIs_ready_to_close(bool newIs_ready_to_close);
     bool is_ready_to_close() const;
     void change_exposition(const quint16 expo);
+    bool getIs_spectrometr_connected() const;
+    void setIs_cycle_update(bool is_cycle_update);
 
 private:
     QSerialPortInfo m_qspi;
@@ -33,6 +35,7 @@ private:
     bool m_is_spectrometr_connected;
     bool m_is_ready_to_close;
     bool m_is_expo_changed;
+    bool m_is_cycle_update;
     quint16 m_exposition;
     QByteArray barr;
 

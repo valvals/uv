@@ -1,7 +1,6 @@
 #include "stm_spectrometr.h"
 #include <QDebug>
 #include <QtEndian>
-#include <unistd.h>
 
 constexpr uint16_t spectral_packet_size = 7384;
 
@@ -10,6 +9,7 @@ stm_spectrometr::stm_spectrometr()
     m_is_spectrometr_connected = false;
     m_is_ready_to_close = false;
     m_is_expo_changed = false;
+    m_is_cycle_update = false;
     m_exposition = 500;
     auto port_list = m_qspi.availablePorts();
     for(auto &&port:port_list){
@@ -30,6 +30,7 @@ stm_spectrometr::stm_spectrometr()
         QByteArray ba;
         ba = m_spectrometr.readAll();
         qDebug()<<"response from stm: "<<"ba size: "<<ba.size()<<qFromLittleEndian<qint32>(ba);
+        m_is_cycle_update = true;
         connect(&m_spectrometr, SIGNAL(readyRead()),SLOT(readStmData()));
     }
 }
@@ -57,6 +58,16 @@ void stm_spectrometr::change_exposition(const quint16 expo)
 {
     m_is_expo_changed = true;
     m_exposition = expo;
+}
+
+bool stm_spectrometr::getIs_spectrometr_connected() const
+{
+    return m_is_spectrometr_connected;
+}
+
+void stm_spectrometr::setIs_cycle_update(bool is_cycle_update)
+{
+    m_is_cycle_update = is_cycle_update;
 }
 
 void stm_spectrometr::readStmData()
@@ -109,8 +120,10 @@ void stm_spectrometr::readStmData()
             m_spectrometr.waitForBytesWritten();
             return;
         }
+        if(m_is_cycle_update == false){
+            return;
+        }
         emit data_is_ready(channels, values, max);
-
     }
 
 }
