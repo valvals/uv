@@ -23,9 +23,9 @@
    <widget class="QPushButton" name="pushButton_spectr">
     <property name="geometry">
      <rect>
-      <x>60</x>
+      <x>50</x>
       <y>450</y>
-      <width>661</width>
+      <width>131</width>
       <height>51</height>
      </rect>
     </property>
@@ -44,8 +44,8 @@
      <rect>
       <x>50</x>
       <y>70</y>
-      <width>681</width>
-      <height>271</height>
+      <width>691</width>
+      <height>361</height>
      </rect>
     </property>
    </widget>
@@ -59,18 +59,20 @@
      </rect>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton_record">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>450</y>
+      <width>271</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>record</string>
+    </property>
+   </widget>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>775</width>
-     <height>30</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <customwidgets>
   <customwidget>

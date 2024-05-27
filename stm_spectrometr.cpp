@@ -126,6 +126,7 @@ void stm_spectrometr::readStmData()
             return;
         }
         if(m_is_cycle_update == false){
+            m_is_ready_to_close = true;
             return;
         }
         emit data_is_ready(channels, values, max);

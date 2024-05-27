@@ -102,6 +102,7 @@ void MainWindow::on_pushButton_spectr_toggled(bool checked)
     }
     if(checked){
         ui->pushButton_spectr->setText("stop");
+        m_stm->setIs_ready_to_close(false);
         m_stm->setIs_cycle_update(true);
         m_stm->getData();
     }else{
