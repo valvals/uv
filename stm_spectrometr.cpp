@@ -4,13 +4,13 @@
 
 constexpr uint16_t spectral_packet_size = 7384;
 
-stm_spectrometr::stm_spectrometr()
+stm_spectrometr::stm_spectrometr(quint16 exposition)
 {
     m_is_spectrometr_connected = false;
     m_is_ready_to_close = false;
     m_is_expo_changed = false;
     m_is_cycle_update = false;
-    m_exposition = 500;
+    m_exposition = exposition;
     auto port_list = m_qspi.availablePorts();
     for(auto &&port:port_list){
         if(port.serialNumber()=="306538683339"){
@@ -68,6 +68,11 @@ bool stm_spectrometr::getIs_spectrometr_connected() const
 void stm_spectrometr::setIs_cycle_update(bool is_cycle_update)
 {
     m_is_cycle_update = is_cycle_update;
+}
+
+quint16 stm_spectrometr::exposition() const
+{
+    return m_exposition;
 }
 
 void stm_spectrometr::readStmData()

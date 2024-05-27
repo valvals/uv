@@ -11,18 +11,31 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     jsn::getJsonArrayFromFile("expo_list.json",m_expositions);
+    m_stm = new stm_spectrometr(500);
+
     qDebug()<<"Expo size: "<<m_expositions.size();
+    bool is500 = false;
     for(int i=0;i<m_expositions.size();++i){
-        ui->comboBox_expositions->addItems(m_expositions[i].toObject().keys());
+        if(m_expositions[i].toObject().keys().size()>0){
+        QString key = m_expositions[i].toObject().keys()[0];
+        ui->comboBox_expositions->addItem(key);
+        if(key == "500 ms"){is500 = true;}
+        }
     }
-    //ui->comboBox_expositions->addItems({"1ms","10ms","100ms","200ms","300ms","500ms","700ms","900ms","1s","1.2s","1.4s","1.5s","1.7s","1.8s"});
+    if(is500 == false){
+        QJsonObject obj;
+        obj["500 ms"] = 500;
+        m_expositions.append(obj);
+        ui->comboBox_expositions->addItem("500 ms");
+    }
+    ui->comboBox_expositions->setCurrentText("500 ms");
     ui->widget_plot->addGraph();
     ui->widget_plot->xAxis->setRange(1,3648);
-    connect(&m_stm,SIGNAL(data_is_ready(QVector<double>&,QVector<double>&, double)),SLOT(showPlot(QVector<double>&,QVector<double>&, double)));
-    connect(&m_stm,SIGNAL(ready_to_close()),this,SLOT(exit()));
-    if(m_stm.getIs_spectrometr_connected()){
+    connect(m_stm,SIGNAL(data_is_ready(QVector<double>&,QVector<double>&, double)),SLOT(showPlot(QVector<double>&,QVector<double>&, double)));
+    connect(m_stm,SIGNAL(ready_to_close()),this,SLOT(exit()));
+    if(m_stm->getIs_spectrometr_connected()){
         ui->pushButton_spectr->setText("stop");
-        QTimer::singleShot(500,&m_stm,SLOT(getData()));
+        QTimer::singleShot(500, m_stm, SLOT(getData()));
     }else{
         ui->pushButton_spectr->setText("disconnected");
     }
@@ -42,10 +55,10 @@ void MainWindow::showPlot(QVector<double> &channels,
     ui->widget_plot->xAxis->setRange(1,channels.size());
     ui->widget_plot->yAxis->setRange(0,max);
     ui->widget_plot->replot();
-    if(m_stm.is_ready_to_close()){
+    if(m_stm->is_ready_to_close()){
         qApp->exit(0);
     }
-    QTimer::singleShot(50,&m_stm,SLOT(getData()));
+    QTimer::singleShot(50,m_stm,SLOT(getData()));
 }
 
 void MainWindow::exit()
@@ -56,15 +69,15 @@ void MainWindow::exit()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     qDebug()<<"close event....";
-    if(m_stm.getIs_spectrometr_connected()==false){
+    if(m_stm->getIs_spectrometr_connected()==false){
         event->accept();
         return;
     }
-    if(m_stm.is_ready_to_close()){
+    if(m_stm->is_ready_to_close()){
         event->accept();
         return;
     }
-    m_stm.setIs_ready_to_close(true);
+    m_stm->setIs_ready_to_close(true);
     event->ignore();
 }
 
@@ -78,21 +91,21 @@ void MainWindow::on_comboBox_expositions_currentIndexChanged(int index)
     }
     auto value = m_expositions[index].toObject().value(ui->comboBox_expositions->currentText()).toDouble();
     qDebug()<<"exposition value: "<<value;
-    m_stm.change_exposition(value);
+    m_stm->change_exposition(value);
 }
 
 
 void MainWindow::on_pushButton_spectr_toggled(bool checked)
 {
-    if(m_stm.getIs_spectrometr_connected()==false){
+    if(m_stm->getIs_spectrometr_connected()==false){
         return;
     }
     if(checked){
         ui->pushButton_spectr->setText("stop");
-        m_stm.setIs_cycle_update(true);
-        m_stm.getData();
+        m_stm->setIs_cycle_update(true);
+        m_stm->getData();
     }else{
         ui->pushButton_spectr->setText("start");
-        m_stm.setIs_cycle_update(false);
+        m_stm->setIs_cycle_update(false);
     }
 }

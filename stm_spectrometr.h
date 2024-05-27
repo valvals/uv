@@ -20,13 +20,14 @@ class stm_spectrometr: public QObject
 {
     Q_OBJECT
 public:
-    stm_spectrometr();
+    stm_spectrometr(quint16 exposition);
     ~stm_spectrometr();
     void setIs_ready_to_close(bool newIs_ready_to_close);
     bool is_ready_to_close() const;
     void change_exposition(const quint16 expo);
     bool getIs_spectrometr_connected() const;
     void setIs_cycle_update(bool is_cycle_update);
+    quint16 exposition() const;
 
 private:
     QSerialPortInfo m_qspi;

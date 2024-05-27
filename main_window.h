@@ -20,8 +20,8 @@ public:
     ~MainWindow();
 
 private:
-    Ui::MainWindow *ui;
-    stm_spectrometr m_stm;
+    Ui::MainWindow* ui;
+    stm_spectrometr* m_stm;
     QJsonArray m_expositions;
 
 private slots:
