@@ -5,12 +5,15 @@
 
 #include <QObject>
 
+#define BLACK_SIZE 13
+#define SPECTRUM_SIZE 3648
+
 #pragma pack(push,1)
 struct SpectrumData {
   unsigned short  dummy1[14];
-  short int       black1[13];
+  short int       black1[BLACK_SIZE];
   unsigned short  dummy2[3];
-  short int       spectrum[3648];
+  short int       spectrum[SPECTRUM_SIZE];
   unsigned short  dummy[14];
 };  //!< Spectrum data structure
 Q_DECLARE_METATYPE(SpectrumData)

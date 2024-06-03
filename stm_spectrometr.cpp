@@ -100,16 +100,15 @@ void stm_spectrometr::readStmData()
         double max = 0;
         double average_black = 0.0;
         int black_sum = 0;
-        int black_array_size = sizeof(spectrumData.black1);
-        for (int i = 0; i < black_array_size; ++i) {
+        for (int i = 0; i < BLACK_SIZE; ++i) {
             black_sum += spectrumData.black1[i];
             //qDebug()<<"black"<<i<<spectrumData.black1[i];
         }
-        average_black = (double)black_sum / (double)black_array_size;
-        //qDebug()<<"av_black: "<<average_black;
-        for (size_t i = 0; i < 3648; ++i) {
+        average_black = (double)black_sum / BLACK_SIZE;
+        qDebug()<<"av_black: "<<average_black;
+        for (size_t i = 0; i < SPECTRUM_SIZE; ++i) {
             channels.push_back(i + 1);
-            values.push_back(spectrumData.spectrum[i]);// - average_black);
+            values.push_back(spectrumData.spectrum[i] - average_black);
             if (max < spectrumData.spectrum[i])
                 max = spectrumData.spectrum[i];
         };
