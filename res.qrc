@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>jsons/expo_list.json</file>
+        <file>jsons/objects.json</file>
     </qresource>
 </RCC>

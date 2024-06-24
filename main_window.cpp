@@ -10,7 +10,13 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QStringList modes = {"Авто","Небо","Газ"};
+    ui->comboBox_mode->addItems(modes);
     jsn::getJsonArrayFromFile("expo_list.json",m_expositions);
+    jsn::getJsonArrayFromFile("objects.json",m_objects);
+    for(int i=0;i<m_objects.size();++i){
+        ui->comboBox_objects->addItem(m_objects[i].toObject()["name"].toString());
+    }
     m_stm = new stm_spectrometr(500);
 
     qDebug()<<"Expo size: "<<m_expositions.size();
@@ -109,4 +115,9 @@ void MainWindow::on_pushButton_spectr_toggled(bool checked)
         ui->pushButton_spectr->setText("start");
         m_stm->setIs_cycle_update(false);
     }
+}
+
+void MainWindow::on_pushButton_record_toggled(bool checked)
+{
+
 }

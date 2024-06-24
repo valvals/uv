@@ -23,6 +23,7 @@ private:
     Ui::MainWindow* ui;
     stm_spectrometr* m_stm;
     QJsonArray m_expositions;
+    QJsonArray m_objects;
 
 private slots:
     void showPlot(QVector<double>& channels,
@@ -31,6 +32,8 @@ private slots:
     // QWidget interface
     void on_comboBox_expositions_currentIndexChanged(int index);
     void on_pushButton_spectr_toggled(bool checked);
+
+    void on_pushButton_record_toggled(bool checked);
 
 protected:
     void closeEvent(QCloseEvent *event);
