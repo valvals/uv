@@ -6,6 +6,8 @@
 #include <qcustomplot.h>
 #include <stm_spectrometr.h>
 #include "json_utils.h"
+#include <QVideoWidget>
+#include <QMediaPlayer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,6 +26,8 @@ private:
     stm_spectrometr* m_stm;
     QJsonArray m_expositions;
     QJsonArray m_objects;
+    QMediaPlayer* m_media_player;
+    QVideoWidget* m_video_widget;
 
 private slots:
     void showPlot(QVector<double>& channels,
@@ -32,7 +36,6 @@ private slots:
     // QWidget interface
     void on_comboBox_expositions_currentIndexChanged(int index);
     void on_pushButton_spectr_toggled(bool checked);
-
     void on_pushButton_record_toggled(bool checked);
 
 protected:

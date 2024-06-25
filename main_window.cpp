@@ -10,6 +10,14 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    m_media_player = new QMediaPlayer;
+    m_media_player->setMedia(QUrl(""));
+    m_video_widget = new QVideoWidget;
+    m_media_player->setVideoOutput(m_video_widget);
+    m_video_widget->show();
+    m_media_player->play();
+
+
     QStringList modes = {"Авто","Небо","Газ"};
     ui->comboBox_mode->addItems(modes);
     jsn::getJsonArrayFromFile("expo_list.json",m_expositions);
