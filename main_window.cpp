@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     m_media_player = new QMediaPlayer;
-    m_media_player->setMedia(QUrl(""));
+    m_media_player->setMedia(QUrl("rtsp://127.0.0.1:8554/stream1"));
     m_video_widget = new QVideoWidget;
     m_media_player->setVideoOutput(m_video_widget);
     m_video_widget->show();

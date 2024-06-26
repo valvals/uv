@@ -105,7 +105,7 @@ void stm_spectrometr::readStmData()
             //qDebug()<<"black"<<i<<spectrumData.black1[i];
         }
         average_black = (double)black_sum / BLACK_SIZE;
-        qDebug()<<"av_black: "<<average_black;
+        //qDebug()<<"av_black: "<<average_black;
         for (size_t i = 0; i < SPECTRUM_SIZE; ++i) {
             channels.push_back(i + 1);
             values.push_back(spectrumData.spectrum[i] - average_black);
