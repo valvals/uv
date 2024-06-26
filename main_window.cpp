@@ -2,6 +2,7 @@
 #include "ui_main_window.h"
 #include "QDebug"
 #include <cstring>
+#include <QProcess>
 
 
 
@@ -10,13 +11,14 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    m_media_player = new QMediaPlayer;
-    m_media_player->setMedia(QUrl("rtsp://127.0.0.1:8554/stream1"));
-    m_video_widget = new QVideoWidget;
-    m_media_player->setVideoOutput(m_video_widget);
-    m_video_widget->show();
-    m_media_player->play();
-
+    m_is_camera_picture_ready = false;
+    //m_media_player = new QMediaPlayer;
+    //m_media_player->setMedia(QUrl("rtsp://127.0.0.1:8554/stream1"));
+    //m_video_widget = new QVideoWidget;
+    //m_media_player->setVideoOutput(m_video_widget);
+    //m_video_widget->show();
+    //m_media_player->play();
+    connect(&m_cam_process,SIGNAL(finished(int)),SLOT(update_camera_image(int)));
 
     QStringList modes = {"Авто","Небо","Газ"};
     ui->comboBox_mode->addItems(modes);
@@ -73,6 +75,16 @@ void MainWindow::showPlot(QVector<double> &channels,
         qApp->exit(0);
     }
     QTimer::singleShot(50,m_stm,SLOT(getData()));
+    if(m_is_camera_picture_ready){
+        ui->label_camera->setPixmap(QPixmap("rp_image.jpg"));
+        on_pushButton_record_toggled(true);
+    }
+}
+
+void MainWindow::update_camera_image(int)
+{
+    //qDebug()<<"------------------------------";
+m_is_camera_picture_ready = true;
 }
 
 void MainWindow::exit()
@@ -127,5 +139,6 @@ void MainWindow::on_pushButton_spectr_toggled(bool checked)
 
 void MainWindow::on_pushButton_record_toggled(bool checked)
 {
-
+    m_is_camera_picture_ready = false;
+m_cam_process.start("libcamera-still --immediate -n  -v 0 --shutter 1000 awbgains=0.3,0.5  -o rp_image.jpg");
 }
