@@ -19,7 +19,10 @@ MainWindow::MainWindow(QWidget *parent)
     //m_video_widget->show();
     //m_media_player->play();
     connect(&m_cam_process,SIGNAL(finished(int)),SLOT(update_camera_image(int)));
-
+    connect(&m_time_timer,&QTimer::timeout,[this](){
+        ui->label_time->setText(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd hh:mm:ss"));
+    });
+    m_time_timer.start(1000);
     QStringList modes = {"Авто","Небо","Газ"};
     ui->comboBox_mode->addItems(modes);
     jsn::getJsonArrayFromFile("expo_list.json",m_expositions);

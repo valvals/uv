@@ -102,7 +102,7 @@
 color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
-     <string>ИЗОБРАЖЕНИЕ С КМЕРЫ</string>
+     <string>ИЗОБРАЖЕНИЕ С КАМЕРЫ</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>

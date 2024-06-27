@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <QTimer>
 #include <qcustomplot.h>
 #include <stm_spectrometr.h>
 #include "json_utils.h"
@@ -24,6 +25,7 @@ public:
 private:
     Ui::MainWindow* ui;
     stm_spectrometr* m_stm;
+    QTimer m_time_timer;
     QJsonArray m_expositions;
     QJsonArray m_objects;
     QMediaPlayer* m_media_player;
