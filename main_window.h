@@ -32,6 +32,7 @@ private:
     QVideoWidget* m_video_widget;
     QProcess m_cam_process;
     bool m_is_camera_picture_ready;
+    void start_capture_process();
 
 private slots:
     void showPlot(QVector<double>& channels,

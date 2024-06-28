@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setFixedSize(480,800);
+    this->layout()->setSizeConstraint( QLayout::SetFixedSize );
     m_is_camera_picture_ready = false;
     //m_media_player = new QMediaPlayer;
     //m_media_player->setMedia(QUrl("rtsp://127.0.0.1:8554/stream1"));
@@ -58,11 +60,18 @@ MainWindow::MainWindow(QWidget *parent)
     }else{
         ui->pushButton_spectr->setText("disconnected");
     }
+    start_capture_process();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::start_capture_process()
+{
+    m_is_camera_picture_ready = false;
+    m_cam_process.start("libcamera-still --immediate -n  -v 0 --shutter 1000 awbgains=0.3,0.5  -o rp_image.jpg");
 }
 
 void MainWindow::showPlot(QVector<double> &channels,
@@ -79,8 +88,13 @@ void MainWindow::showPlot(QVector<double> &channels,
     }
     QTimer::singleShot(50,m_stm,SLOT(getData()));
     if(m_is_camera_picture_ready){
-        ui->label_camera->setPixmap(QPixmap("rp_image.jpg"));
-        on_pushButton_record_toggled(true);
+        QPixmap pm = QPixmap("rp_image.jpg");
+        QMatrix rm;
+        rm.rotate(90);
+        pm = pm.transformed(rm);
+        ui->label_camera->setPixmap(pm);
+
+        start_capture_process();
     }
 }
 
@@ -142,6 +156,5 @@ void MainWindow::on_pushButton_spectr_toggled(bool checked)
 
 void MainWindow::on_pushButton_record_toggled(bool checked)
 {
-    m_is_camera_picture_ready = false;
-m_cam_process.start("libcamera-still --immediate -n  -v 0 --shutter 1000 awbgains=0.3,0.5  -o rp_image.jpg");
+
 }

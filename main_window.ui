@@ -6,9 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>714</width>
-    <height>614</height>
+    <width>480</width>
+    <height>800</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>480</width>
+    <height>800</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>480</width>
+    <height>800</height>
+   </size>
   </property>
   <property name="font">
    <font>
@@ -20,13 +38,31 @@
    <string>UV</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>480</width>
+     <height>800</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>480</width>
+     <height>800</height>
+    </size>
+   </property>
    <widget class="QPushButton" name="pushButton_spectr">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>320</y>
-      <width>141</width>
-      <height>51</height>
+      <x>10</x>
+      <y>380</y>
+      <width>211</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -43,8 +79,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>50</y>
-      <width>691</width>
+      <y>100</y>
+      <width>461</width>
       <height>261</height>
      </rect>
     </property>
@@ -52,49 +88,30 @@
      <string notr="true">background-color: rgb(255, 255, 17);</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_record">
-    <property name="geometry">
-     <rect>
-      <x>560</x>
-      <y>320</y>
-      <width>141</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>record</string>
-    </property>
-    <property name="checkable">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QComboBox" name="comboBox_objects">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>320</y>
-      <width>241</width>
-      <height>51</height>
+      <x>250</x>
+      <y>50</y>
+      <width>221</width>
+      <height>41</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QComboBox" name="comboBox_mode">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>320</y>
-      <width>141</width>
-      <height>51</height>
-     </rect>
+    <property name="font">
+     <font>
+      <family>FreeMono</family>
+      <pointsize>18</pointsize>
+      <bold>true</bold>
+     </font>
     </property>
    </widget>
    <widget class="QLabel" name="label_camera">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>380</y>
-      <width>691</width>
-      <height>171</height>
+      <y>440</y>
+      <width>461</width>
+      <height>271</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -112,9 +129,9 @@ color: rgb(0, 0, 0);</string>
     <property name="geometry">
      <rect>
       <x>110</x>
-      <y>560</y>
-      <width>481</width>
-      <height>41</height>
+      <y>720</y>
+      <width>251</width>
+      <height>61</height>
      </rect>
     </property>
    </widget>
@@ -122,9 +139,9 @@ color: rgb(0, 0, 0);</string>
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>560</y>
+      <y>720</y>
       <width>91</width>
-      <height>41</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -137,13 +154,89 @@ color: rgb(0, 0, 0);</string>
      <string>-</string>
     </property>
    </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>461</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label_gyroscope">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="text">
+        <string>GYRO</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_time">
+       <property name="minimumSize">
+        <size>
+         <width>260</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="text">
+        <string>TIME</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_gps">
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="text">
+        <string>GPS</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="pushButton_record">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>380</y>
+      <width>221</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>record</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+   </widget>
    <widget class="QPushButton" name="pushButton_expo_plus">
     <property name="geometry">
      <rect>
-      <x>600</x>
-      <y>560</y>
+      <x>370</x>
+      <y>720</y>
       <width>101</width>
-      <height>41</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -156,66 +249,26 @@ color: rgb(0, 0, 0);</string>
      <string>+</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_time">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>10</y>
-      <width>231</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Box</enum>
-    </property>
-    <property name="text">
-     <string>TIME</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_gyroscope">
+   <widget class="QComboBox" name="comboBox_mode">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
-      <width>231</width>
-      <height>31</height>
+      <y>50</y>
+      <width>221</width>
+      <height>41</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Box</enum>
-    </property>
-    <property name="text">
-     <string>GYRO</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
    </widget>
-   <widget class="QLabel" name="label_gps">
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>10</y>
-      <width>211</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Box</enum>
-    </property>
-    <property name="text">
-     <string>GPS</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
+   <zorder>widget_plot</zorder>
+   <zorder>comboBox_objects</zorder>
+   <zorder>label_camera</zorder>
+   <zorder>comboBox_expositions</zorder>
+   <zorder>pushButton_expo_minus</zorder>
+   <zorder>layoutWidget</zorder>
+   <zorder>pushButton_record</zorder>
+   <zorder>pushButton_expo_plus</zorder>
+   <zorder>pushButton_spectr</zorder>
+   <zorder>comboBox_mode</zorder>
   </widget>
  </widget>
  <customwidgets>
