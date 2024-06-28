@@ -88,9 +88,13 @@ void MainWindow::save_spectr_to_text(const QVector<double>& values)
     }
     auto value = m_expositions[ui->comboBox_expositions->currentIndex()].toObject().value(ui->comboBox_expositions->currentText()).toDouble();
     file_name = file_name+"//"+QDateTime::currentDateTimeUtc().toString("yyyy_MM_dd_hh_mm_ss_z_")+QString::number(value)+".txt";
+    QString spectr_data;
     QFile file(file_name);
     file.open(QIODevice::WriteOnly);
-    file.write("test data");
+    for(int i=0;i<values.size();++i){
+        spectr_data.append(QString::number(values[i])+"\n");
+    }
+    file.write(spectr_data.toLatin1());
     file.close();
 }
 
