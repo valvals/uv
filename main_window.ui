@@ -61,7 +61,7 @@
      <rect>
       <x>10</x>
       <y>380</y>
-      <width>211</width>
+      <width>111</width>
       <height>41</height>
      </rect>
     </property>
@@ -134,6 +134,13 @@ color: rgb(0, 0, 0);</string>
       <height>61</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>FreeMono</family>
+      <pointsize>18</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
    </widget>
    <widget class="QPushButton" name="pushButton_expo_minus">
     <property name="geometry">
@@ -146,8 +153,9 @@ color: rgb(0, 0, 0);</string>
     </property>
     <property name="font">
      <font>
-      <family>MS Shell Dlg 2</family>
+      <family>FreeMono</family>
       <pointsize>24</pointsize>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
@@ -217,11 +225,23 @@ color: rgb(0, 0, 0);</string>
    <widget class="QPushButton" name="pushButton_record">
     <property name="geometry">
      <rect>
-      <x>250</x>
+      <x>130</x>
       <y>380</y>
       <width>221</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>FreeMono</family>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#pushButton_record:checked {
+border:none;
+color: black; background-color: red;
+}</string>
     </property>
     <property name="text">
      <string>record</string>
@@ -241,8 +261,9 @@ color: rgb(0, 0, 0);</string>
     </property>
     <property name="font">
      <font>
-      <family>MS Shell Dlg 2</family>
+      <family>FreeMono</family>
       <pointsize>24</pointsize>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
@@ -258,6 +279,32 @@ color: rgb(0, 0, 0);</string>
       <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>FreeMono</family>
+      <pointsize>18</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_spectr_create_new_experiment">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>380</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>new</string>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
    </widget>
    <zorder>widget_plot</zorder>
    <zorder>comboBox_objects</zorder>
@@ -269,6 +316,7 @@ color: rgb(0, 0, 0);</string>
    <zorder>pushButton_expo_plus</zorder>
    <zorder>pushButton_spectr</zorder>
    <zorder>comboBox_mode</zorder>
+   <zorder>pushButton_spectr_create_new_experiment</zorder>
   </widget>
  </widget>
  <customwidgets>

@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setFixedSize(480,800);
     this->layout()->setSizeConstraint( QLayout::SetFixedSize );
     m_is_camera_picture_ready = false;
+    m_is_record = false;
     //m_media_player = new QMediaPlayer;
     //m_media_player->setMedia(QUrl("rtsp://127.0.0.1:8554/stream1"));
     //m_video_widget = new QVideoWidget;
@@ -25,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->label_time->setText(QDateTime::currentDateTimeUtc().toString("yyyy-MM-dd hh:mm:ss"));
     });
     m_time_timer.start(1000);
-    QStringList modes = {"Авто","Небо","Газ"};
+    QStringList modes = {"Небо","Газ"};
     ui->comboBox_mode->addItems(modes);
     jsn::getJsonArrayFromFile("expo_list.json",m_expositions);
     jsn::getJsonArrayFromFile("objects.json",m_objects);
@@ -38,9 +39,9 @@ MainWindow::MainWindow(QWidget *parent)
     bool is500 = false;
     for(int i=0;i<m_expositions.size();++i){
         if(m_expositions[i].toObject().keys().size()>0){
-        QString key = m_expositions[i].toObject().keys()[0];
-        ui->comboBox_expositions->addItem(key);
-        if(key == "500 ms"){is500 = true;}
+            QString key = m_expositions[i].toObject().keys()[0];
+            ui->comboBox_expositions->addItem(key);
+            if(key == "500 ms"){is500 = true;}
         }
     }
     if(is500 == false){
@@ -61,17 +62,20 @@ MainWindow::MainWindow(QWidget *parent)
         ui->pushButton_spectr->setText("disconnected");
     }
     start_capture_process();
+    on_pushButton_spectr_create_new_experiment_clicked();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    m_cam_process.close();
 }
 
 void MainWindow::start_capture_process()
 {
     m_is_camera_picture_ready = false;
     m_cam_process.start("libcamera-still --immediate -n  -v 0 --shutter 1000 awbgains=0.3,0.5  -o rp_image.jpg");
+    m_capture_img_name = "//"+QDateTime::currentDateTimeUtc().toString("yyyy_MM_dd_hh_mm_ss_z")+".jpg";
 }
 
 void MainWindow::showPlot(QVector<double> &channels,
@@ -100,8 +104,17 @@ void MainWindow::showPlot(QVector<double> &channels,
 
 void MainWindow::update_camera_image(int)
 {
-    //qDebug()<<"------------------------------";
-m_is_camera_picture_ready = true;
+    m_is_camera_picture_ready = true;
+    if(m_is_record){
+    QPixmap pm("rp_image.jpg");
+    QString dir;
+    if(ui->comboBox_mode->currentText()=="Небо"){
+        dir = m_capture_sky_img_dir;
+    }else if(ui->comboBox_mode->currentText()=="Газ"){
+        dir = m_capture_gas_img_dir;
+    }
+    pm.save(dir+m_capture_img_name);
+    }
 }
 
 void MainWindow::exit()
@@ -156,5 +169,38 @@ void MainWindow::on_pushButton_spectr_toggled(bool checked)
 
 void MainWindow::on_pushButton_record_toggled(bool checked)
 {
-
+    m_is_record = checked;
 }
+
+void MainWindow::on_pushButton_expo_minus_clicked()
+{
+    auto index = ui->comboBox_expositions->currentIndex();
+    if(index!=0)
+        ui->comboBox_expositions->setCurrentIndex(--index);
+}
+
+
+void MainWindow::on_pushButton_expo_plus_clicked()
+{
+    auto index = ui->comboBox_expositions->currentIndex();
+    if(index!=ui->comboBox_expositions->count()-1)
+        ui->comboBox_expositions->setCurrentIndex(++index);
+}
+
+
+void MainWindow::on_pushButton_spectr_create_new_experiment_clicked()
+{
+   const QString date_time_stamp = QDateTime::currentDateTimeUtc().toString("yyyy_MM_dd_hh_mm_ss_zz_");
+   m_current_experiment_dir = QDir::currentPath()+"/experiments/"+date_time_stamp+m_objects[ui->comboBox_objects->currentIndex()].toObject()["alias"].toString();
+   QDir dir;
+   dir.mkdir(m_current_experiment_dir);
+   m_capture_gas_dat_dir = m_current_experiment_dir + "/gas_dat";
+   m_capture_gas_img_dir = m_current_experiment_dir + "/gas_img";
+   m_capture_sky_dat_dir = m_current_experiment_dir + "/sky_dat";
+   m_capture_sky_img_dir = m_current_experiment_dir + "/sky_img";
+   dir.mkdir(m_capture_sky_img_dir);
+   dir.mkdir(m_capture_gas_img_dir);
+   dir.mkdir(m_capture_sky_dat_dir);
+   dir.mkdir(m_capture_gas_dat_dir);
+}
+

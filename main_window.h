@@ -32,7 +32,15 @@ private:
     QVideoWidget* m_video_widget;
     QProcess m_cam_process;
     bool m_is_camera_picture_ready;
+    bool m_is_record;
+    QString m_current_experiment_dir;
+    QString m_capture_sky_img_dir;
+    QString m_capture_gas_img_dir;
+    QString m_capture_sky_dat_dir;
+    QString m_capture_gas_dat_dir;
+    QString m_capture_img_name;
     void start_capture_process();
+    void create_new_experiment();
 
 private slots:
     void showPlot(QVector<double>& channels,
@@ -43,6 +51,12 @@ private slots:
     void on_comboBox_expositions_currentIndexChanged(int index);
     void on_pushButton_spectr_toggled(bool checked);
     void on_pushButton_record_toggled(bool checked);
+
+    void on_pushButton_expo_minus_clicked();
+
+    void on_pushButton_expo_plus_clicked();
+
+    void on_pushButton_spectr_create_new_experiment_clicked();
 
 protected:
     void closeEvent(QCloseEvent *event);
