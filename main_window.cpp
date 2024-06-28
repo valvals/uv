@@ -78,6 +78,22 @@ void MainWindow::start_capture_process()
     m_capture_img_name = "//"+QDateTime::currentDateTimeUtc().toString("yyyy_MM_dd_hh_mm_ss_z")+".jpg";
 }
 
+void MainWindow::save_spectr_to_text(const QVector<double>& values)
+{
+    QString file_name;
+    if(ui->comboBox_mode->currentText()=="Небо"){
+        file_name = m_capture_sky_dat_dir;
+    }else if(ui->comboBox_mode->currentText()=="Газ"){
+        file_name = m_capture_gas_dat_dir;
+    }
+    auto value = m_expositions[ui->comboBox_expositions->currentIndex()].toObject().value(ui->comboBox_expositions->currentText()).toDouble();
+    file_name = file_name+"//"+QDateTime::currentDateTimeUtc().toString("yyyy_MM_dd_hh_mm_ss_z_")+QString::number(value)+".txt";
+    QFile file(file_name);
+    file.open(QIODevice::WriteOnly);
+    file.write("test data");
+    file.close();
+}
+
 void MainWindow::showPlot(QVector<double> &channels,
                           QVector<double> &values,
                           double max)
@@ -99,6 +115,9 @@ void MainWindow::showPlot(QVector<double> &channels,
         ui->label_camera->setPixmap(pm);
 
         start_capture_process();
+    }
+    if(m_is_record){
+        save_spectr_to_text(values);
     }
 }
 

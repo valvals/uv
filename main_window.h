@@ -41,6 +41,7 @@ private:
     QString m_capture_img_name;
     void start_capture_process();
     void create_new_experiment();
+    void save_spectr_to_text(const QVector<double> &values);
 
 private slots:
     void showPlot(QVector<double>& channels,
