@@ -1,4 +1,4 @@
-QT       += core gui serialport printsupport multimediawidgets
+QT       += core gui serialport printsupport multimediawidgets concurrent
 TARGET = uv
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

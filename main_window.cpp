@@ -3,6 +3,7 @@
 #include "QDebug"
 #include <cstring>
 #include <QProcess>
+#include <QtConcurrent/QtConcurrentRun>
 
 
 
@@ -63,6 +64,13 @@ MainWindow::MainWindow(QWidget *parent)
     }
     start_capture_process();
     on_pushButton_spectr_create_new_experiment_clicked();
+
+    QVector<double>values = {1,2,3,4,5};
+    QtConcurrent::run([this,values](){
+      save_spectr_to_text(values);
+    });
+
+
 }
 
 MainWindow::~MainWindow()
@@ -121,7 +129,10 @@ void MainWindow::showPlot(QVector<double> &channels,
         start_capture_process();
     }
     if(m_is_record){
-        save_spectr_to_text(values);
+        QtConcurrent::run([this,values](){
+          save_spectr_to_text(values);
+        });
+        //save_spectr_to_text(values);
     }
 }
 
@@ -193,6 +204,11 @@ void MainWindow::on_pushButton_spectr_toggled(bool checked)
 void MainWindow::on_pushButton_record_toggled(bool checked)
 {
     m_is_record = checked;
+    if(checked){
+      ui->pushButton_record->setText("stop");
+    }else{
+       ui->pushButton_record->setText("record");
+    }
 }
 
 void MainWindow::on_pushButton_expo_minus_clicked()
