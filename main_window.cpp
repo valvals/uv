@@ -65,10 +65,10 @@ MainWindow::MainWindow(QWidget *parent)
     start_capture_process();
     on_pushButton_spectr_create_new_experiment_clicked();
 
-    QVector<double>values = {1,2,3,4,5};
+    /*QVector<double>values = {1,2,3,4,5};
     QtConcurrent::run([this,values](){
       save_spectr_to_text(values);
-    });
+    });*/
 
 
 }
