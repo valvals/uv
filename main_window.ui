@@ -121,6 +121,9 @@ color: rgb(0, 0, 0);</string>
     <property name="text">
      <string>ИЗОБРАЖЕНИЕ С КАМЕРЫ</string>
     </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>

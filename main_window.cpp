@@ -121,16 +121,26 @@ void MainWindow::showPlot(QVector<double> &channels,
     QTimer::singleShot(50,m_stm,SLOT(getData()));
     if(m_is_camera_picture_ready){
         QPixmap pm = QPixmap("rp_image.jpg");
+        QPainter painter(&pm);
+        QPen pen;
+        pen.setColor(QColor("red"));
+        pen.setWidth(3);
+        painter.setPen(pen);
+        QRect rect;
+        rect.setTopLeft(QPoint(1287,900));
+        rect.setBottomRight(QPoint(1301,947));
+        painter.drawRect(rect);
+        painter.drawEllipse(QPoint(1294,923),200,200);
+        painter.end();
         QMatrix rm;
         rm.rotate(90);
         pm = pm.transformed(rm);
         ui->label_camera->setPixmap(pm);
-
         start_capture_process();
     }
     if(m_is_record){
         QtConcurrent::run([this,values](){
-          save_spectr_to_text(values);
+            save_spectr_to_text(values);
         });
         //save_spectr_to_text(values);
     }
@@ -140,14 +150,14 @@ void MainWindow::update_camera_image(int)
 {
     m_is_camera_picture_ready = true;
     if(m_is_record){
-    QPixmap pm("rp_image.jpg");
-    QString dir;
-    if(ui->comboBox_mode->currentText()=="Небо"){
-        dir = m_capture_sky_img_dir;
-    }else if(ui->comboBox_mode->currentText()=="Газ"){
-        dir = m_capture_gas_img_dir;
-    }
-    pm.save(dir+m_capture_img_name);
+        QPixmap pm("rp_image.jpg");
+        QString dir;
+        if(ui->comboBox_mode->currentText()=="Небо"){
+            dir = m_capture_sky_img_dir;
+        }else if(ui->comboBox_mode->currentText()=="Газ"){
+            dir = m_capture_gas_img_dir;
+        }
+        pm.save(dir+m_capture_img_name);
     }
 }
 
@@ -205,9 +215,9 @@ void MainWindow::on_pushButton_record_toggled(bool checked)
 {
     m_is_record = checked;
     if(checked){
-      ui->pushButton_record->setText("stop");
+        ui->pushButton_record->setText("stop");
     }else{
-       ui->pushButton_record->setText("record");
+        ui->pushButton_record->setText("record");
     }
 }
 
@@ -229,17 +239,17 @@ void MainWindow::on_pushButton_expo_plus_clicked()
 
 void MainWindow::on_pushButton_spectr_create_new_experiment_clicked()
 {
-   const QString date_time_stamp = QDateTime::currentDateTimeUtc().toString("yyyy_MM_dd_hh_mm_ss_zz_");
-   m_current_experiment_dir = QDir::currentPath()+"/experiments/"+date_time_stamp+m_objects[ui->comboBox_objects->currentIndex()].toObject()["alias"].toString();
-   QDir dir;
-   dir.mkdir(m_current_experiment_dir);
-   m_capture_gas_dat_dir = m_current_experiment_dir + "/gas_dat";
-   m_capture_gas_img_dir = m_current_experiment_dir + "/gas_img";
-   m_capture_sky_dat_dir = m_current_experiment_dir + "/sky_dat";
-   m_capture_sky_img_dir = m_current_experiment_dir + "/sky_img";
-   dir.mkdir(m_capture_sky_img_dir);
-   dir.mkdir(m_capture_gas_img_dir);
-   dir.mkdir(m_capture_sky_dat_dir);
-   dir.mkdir(m_capture_gas_dat_dir);
+    const QString date_time_stamp = QDateTime::currentDateTimeUtc().toString("yyyy_MM_dd_hh_mm_ss_zz_");
+    m_current_experiment_dir = QDir::currentPath()+"/experiments/"+date_time_stamp+m_objects[ui->comboBox_objects->currentIndex()].toObject()["alias"].toString();
+    QDir dir;
+    dir.mkdir(m_current_experiment_dir);
+    m_capture_gas_dat_dir = m_current_experiment_dir + "/gas_dat";
+    m_capture_gas_img_dir = m_current_experiment_dir + "/gas_img";
+    m_capture_sky_dat_dir = m_current_experiment_dir + "/sky_dat";
+    m_capture_sky_img_dir = m_current_experiment_dir + "/sky_img";
+    dir.mkdir(m_capture_sky_img_dir);
+    dir.mkdir(m_capture_gas_img_dir);
+    dir.mkdir(m_capture_sky_dat_dir);
+    dir.mkdir(m_capture_gas_dat_dir);
 }
 
