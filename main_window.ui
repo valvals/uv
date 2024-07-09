@@ -34,6 +34,9 @@
     <pointsize>16</pointsize>
    </font>
   </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::ActionsContextMenu</enum>
+  </property>
   <property name="windowTitle">
    <string>UV</string>
   </property>
@@ -55,6 +58,9 @@
      <width>480</width>
      <height>800</height>
     </size>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::ActionsContextMenu</enum>
    </property>
    <widget class="QPushButton" name="pushButton_spectr">
     <property name="geometry">

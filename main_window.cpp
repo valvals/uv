@@ -14,6 +14,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     this->setFixedSize(480,800);
     this->layout()->setSizeConstraint( QLayout::SetFixedSize );
+    QAction* screen_shot_action = new QAction;
+    screen_shot_action->setText("screenshot");
+    connect(screen_shot_action,&QAction::triggered,[this](){
+        auto pm = this->grab(this->rect());
+        pm.save("test_screenshot_img.jpg");
+    });
+    ui->centralwidget->addAction(screen_shot_action);
     m_is_camera_picture_ready = false;
     m_is_record = false;
     //m_media_player = new QMediaPlayer;
