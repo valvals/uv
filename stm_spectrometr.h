@@ -31,6 +31,7 @@ public:
     bool getIs_spectrometr_connected() const;
     void setIs_cycle_update(bool is_cycle_update);
     quint16 exposition() const;
+    bool getIs_gps_connected() const;
 
 private:
     QSerialPortInfo m_qspi;
@@ -41,8 +42,10 @@ private:
     bool m_is_ready_to_close;
     bool m_is_expo_changed;
     bool m_is_cycle_update;
+    bool m_is_gps_connected;
     quint16 m_exposition;
     QByteArray barr;
+    QString parseNmea2grad(QString dm,QString nswe);
 
 public slots:
     void getData();
@@ -58,6 +61,8 @@ signals:
                        double max);
     void ready_to_close();
     void request_spectr();
+    void lat_long_alt_updated(QString,QString,QString);
+    void save_gps(const QByteArray data);
 };
 
 #endif // STM_SPECTROMETR_H

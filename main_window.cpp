@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    m_gps_file = "";
+    ui->label_gyroscope->setVisible(false);
     this->setFixedSize(480,800);
     this->layout()->setSizeConstraint( QLayout::SetFixedSize );
     QAction* screen_shot_action = new QAction;
@@ -63,6 +65,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->widget_plot->xAxis->setRange(1,3648);
     connect(m_stm,SIGNAL(data_is_ready(QVector<double>&,QVector<double>&, double)),SLOT(showPlot(QVector<double>&,QVector<double>&, double)));
     connect(m_stm,SIGNAL(ready_to_close()),this,SLOT(exit()));
+    connect(m_stm,SIGNAL(lat_long_alt_updated(QString,QString,QString)),this,SLOT(update_long_lat_alt(QString,QString,QString)));
+    connect(m_stm,SIGNAL(save_gps(const QByteArray)),SLOT(maybe_save_gps_data(const QByteArray)));
     if(m_stm->getIs_spectrometr_connected()){
         //ui->pushButton_spectr->setText("stop");
         QTimer::singleShot(500, m_stm, SLOT(getData()));
@@ -245,6 +249,12 @@ void MainWindow::on_pushButton_spectr_create_new_experiment_clicked()
     m_current_experiment_dir = QDir::currentPath()+"/experiments/"+date_time_stamp+m_objects[ui->comboBox_objects->currentIndex()].toObject()["alias"].toString();
     QDir dir;
     dir.mkdir(m_current_experiment_dir);
+    m_gps_file = m_current_experiment_dir+"/gps.txt";
+    QFile file(m_gps_file);
+    file.open(QIODevice::WriteOnly);
+    file.write(m_current_experiment_dir.toLatin1()+"\n");
+    file.waitForBytesWritten(100);
+    file.close();
     m_capture_gas_dat_dir = m_current_experiment_dir + "/gas_dat";
     m_capture_gas_img_dir = m_current_experiment_dir + "/gas_img";
     m_capture_sky_dat_dir = m_current_experiment_dir + "/sky_dat";
@@ -253,5 +263,22 @@ void MainWindow::on_pushButton_spectr_create_new_experiment_clicked()
     dir.mkdir(m_capture_gas_img_dir);
     dir.mkdir(m_capture_sky_dat_dir);
     dir.mkdir(m_capture_gas_dat_dir);
+}
+
+void MainWindow::update_long_lat_alt(QString lat, QString lng, QString alt)
+{
+    ui->label_gps->setText("Lat:"+lat + " " +  "Lon:"+lng);
+}
+
+void MainWindow::maybe_save_gps_data(const QByteArray data)
+{
+    if(m_is_record&&(m_gps_file.isEmpty()==false)){
+        QFile file(m_gps_file);
+        if(file.open(QFile::Append)){
+        file.write(data);
+        file.close();
+        }
+        file.close();
+    }
 }
 

@@ -39,6 +39,7 @@ private:
     QString m_capture_sky_dat_dir;
     QString m_capture_gas_dat_dir;
     QString m_capture_img_name;
+    QString m_gps_file;
     void start_capture_process();
     void create_new_experiment();
     void save_spectr_to_text(const QVector<double> &values);
@@ -58,6 +59,8 @@ private slots:
     void on_pushButton_expo_plus_clicked();
 
     void on_pushButton_spectr_create_new_experiment_clicked();
+    void update_long_lat_alt(QString lat,QString lng,QString alt);
+    void maybe_save_gps_data(const QByteArray data);
 
 protected:
     void closeEvent(QCloseEvent *event);

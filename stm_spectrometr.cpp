@@ -10,6 +10,7 @@ stm_spectrometr::stm_spectrometr(quint16 exposition)
     m_is_ready_to_close = false;
     m_is_expo_changed = false;
     m_is_cycle_update = false;
+    m_is_gps_connected = false;
     m_exposition = exposition;
     auto port_list = m_qspi.availablePorts();
     for(auto &&port:port_list){
@@ -20,12 +21,8 @@ stm_spectrometr::stm_spectrometr(quint16 exposition)
             m_spectrometr.setBaudRate(115200);
             m_is_spectrometr_connected = m_spectrometr.open(QIODevice::ReadWrite);
         }else if(port.productIdentifier()==423){
-            //qDebug()<<port.productIdentifier();
-            //qDebug()<<port.vendorIdentifier();
-            //qDebug()<<port.portName();
-            //qDebug()<<port.serialNumber();
             m_gps.setPortName(port.portName());
-            m_gps.open(QIODevice::ReadWrite);
+            m_is_gps_connected = m_gps.open(QIODevice::ReadWrite);
             connect(&m_gps, SIGNAL(readyRead()),SLOT(readGpsData()));
         }
     }
@@ -81,6 +78,11 @@ void stm_spectrometr::setIs_cycle_update(bool is_cycle_update)
 quint16 stm_spectrometr::exposition() const
 {
     return m_exposition;
+}
+
+bool stm_spectrometr::getIs_gps_connected() const
+{
+    return m_is_gps_connected;
 }
 
 void stm_spectrometr::readStmData()
@@ -143,7 +145,25 @@ void stm_spectrometr::readStmData()
 
 void stm_spectrometr::readGpsData()
 {
-  qDebug()<<m_gps.readAll();
+      auto data = m_gps.readAll();
+      QStringList allData;
+      allData = QString(data).split("\n");
+      for(int i=0;i<allData.count();i++){
+              if(allData[i].contains("$GPGGA")){
+                  QStringList data = allData[i].split(",");
+                  //qDebug()<<data<<data.size();
+                  if(data.size()<10) {
+                      emit lat_long_alt_updated("NA","NA","NA");
+                      return;
+                  }
+                  auto lat = parseNmea2grad(data[2],data[3]);
+                  auto lnt = parseNmea2grad(data[4],data[5]);
+                  auto alt = data[9];
+                  emit lat_long_alt_updated(lat,lnt,alt);
+              }
+          }
+      emit save_gps(data);
+
 }
 
 void stm_spectrometr::getData()
@@ -158,4 +178,34 @@ void stm_spectrometr::setExpo(const quint16& expo)
     if(m_is_spectrometr_connected){
         m_spectrometr.write(QString("e%1\n").arg(expo).toLatin1());
     }
+}
+
+QString stm_spectrometr::parseNmea2grad(QString dm,QString nswe)
+{
+    QString result;
+    int dec_degrees;
+    float minutes;
+    float my_deg;
+    int plus_minus=1;
+
+    if(nswe=="W"||nswe=="S"){plus_minus=-1;}else{plus_minus=1;}
+    if(nswe=="N"||nswe=="S"){
+
+        dec_degrees = dm.mid(0,2).toInt();
+        minutes = dm.mid(2,dm.length()-1).toFloat();
+        my_deg = dec_degrees+(minutes/60)*plus_minus;
+        result = QString::number(static_cast<double>(my_deg),'g',8);
+        //m_lattyNavi = static_cast<double>(my_deg);
+        //m_latitude = result;
+
+    }else{
+
+        dec_degrees = dm.mid(0,3).toInt();
+        minutes = dm.mid(3,dm.length()-1).toFloat();
+        my_deg = dec_degrees+(minutes/60)*plus_minus;
+        result = QString::number(static_cast<double>(my_deg),'g',8);
+        //m_longyNavi = static_cast<double>(my_deg);
+        //longitude = result;
+    }
+    return result;
 }
