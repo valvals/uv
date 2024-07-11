@@ -35,6 +35,7 @@ public:
 private:
     QSerialPortInfo m_qspi;
     QSerialPort m_spectrometr;
+    QSerialPort m_gps;
     QString m_port_name;
     bool m_is_spectrometr_connected;
     bool m_is_ready_to_close;
@@ -48,6 +49,7 @@ public slots:
 
  private slots:
     void readStmData();
+    void readGpsData();
     void setExpo(const quint16& expo);
 
 signals:

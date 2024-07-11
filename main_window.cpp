@@ -64,19 +64,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_stm,SIGNAL(data_is_ready(QVector<double>&,QVector<double>&, double)),SLOT(showPlot(QVector<double>&,QVector<double>&, double)));
     connect(m_stm,SIGNAL(ready_to_close()),this,SLOT(exit()));
     if(m_stm->getIs_spectrometr_connected()){
-        ui->pushButton_spectr->setText("stop");
+        //ui->pushButton_spectr->setText("stop");
         QTimer::singleShot(500, m_stm, SLOT(getData()));
     }else{
-        ui->pushButton_spectr->setText("disconnected");
+        //ui->pushButton_spectr->setText("disconnected");
     }
     start_capture_process();
-    on_pushButton_spectr_create_new_experiment_clicked();
-
-    /*QVector<double>values = {1,2,3,4,5};
-    QtConcurrent::run([this,values](){
-      save_spectr_to_text(values);
-    });*/
-
+    //this->showFullScreen();
 
 }
 
@@ -204,7 +198,7 @@ void MainWindow::on_comboBox_expositions_currentIndexChanged(int index)
 
 void MainWindow::on_pushButton_spectr_toggled(bool checked)
 {
-    if(m_stm->getIs_spectrometr_connected()==false){
+    /*if(m_stm->getIs_spectrometr_connected()==false){
         return;
     }
     if(checked){
@@ -215,7 +209,8 @@ void MainWindow::on_pushButton_spectr_toggled(bool checked)
     }else{
         ui->pushButton_spectr->setText("start");
         m_stm->setIs_cycle_update(false);
-    }
+    }*/
+    this->close();
 }
 
 void MainWindow::on_pushButton_record_toggled(bool checked)

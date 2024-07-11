@@ -72,7 +72,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>start</string>
+     <string>exit</string>
     </property>
     <property name="checkable">
      <bool>true</bool>
@@ -183,6 +183,13 @@ color: rgb(0, 0, 0);</string>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="label_gyroscope">
+       <property name="font">
+        <font>
+         <family>FreeMono</family>
+         <pointsize>16</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -205,6 +212,13 @@ color: rgb(0, 0, 0);</string>
          <height>0</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <family>FreeMono</family>
+         <pointsize>16</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="frameShape">
         <enum>QFrame::Box</enum>
        </property>
@@ -218,6 +232,13 @@ color: rgb(0, 0, 0);</string>
      </item>
      <item>
       <widget class="QLabel" name="label_gps">
+       <property name="font">
+        <font>
+         <family>FreeMono</family>
+         <pointsize>16</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="frameShape">
         <enum>QFrame::Box</enum>
        </property>

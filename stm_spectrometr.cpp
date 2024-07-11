@@ -19,6 +19,14 @@ stm_spectrometr::stm_spectrometr(quint16 exposition)
             m_spectrometr.setPortName(m_port_name);
             m_spectrometr.setBaudRate(115200);
             m_is_spectrometr_connected = m_spectrometr.open(QIODevice::ReadWrite);
+        }else if(port.productIdentifier()==423){
+            //qDebug()<<port.productIdentifier();
+            //qDebug()<<port.vendorIdentifier();
+            //qDebug()<<port.portName();
+            //qDebug()<<port.serialNumber();
+            m_gps.setPortName(port.portName());
+            m_gps.open(QIODevice::ReadWrite);
+            connect(&m_gps, SIGNAL(readyRead()),SLOT(readGpsData()));
         }
     }
     if(m_is_spectrometr_connected){
@@ -131,6 +139,11 @@ void stm_spectrometr::readStmData()
         emit data_is_ready(channels, values, max);
     }
 
+}
+
+void stm_spectrometr::readGpsData()
+{
+  qDebug()<<m_gps.readAll();
 }
 
 void stm_spectrometr::getData()
