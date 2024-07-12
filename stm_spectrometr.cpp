@@ -20,8 +20,12 @@ stm_spectrometr::stm_spectrometr(quint16 exposition)
             m_spectrometr.setPortName(m_port_name);
             m_spectrometr.setBaudRate(115200);
             m_is_spectrometr_connected = m_spectrometr.open(QIODevice::ReadWrite);
-        }else if(port.productIdentifier()==423){
+        }else if(port.productIdentifier()==9123){
+            qDebug()<<port.productIdentifier();
+            qDebug()<<port.serialNumber();
+            qDebug()<<port.manufacturer();
             m_gps.setPortName(port.portName());
+            m_gps.setBaudRate(4800);
             m_is_gps_connected = m_gps.open(QIODevice::ReadWrite);
             connect(&m_gps, SIGNAL(readyRead()),SLOT(readGpsData()));
         }
@@ -145,13 +149,18 @@ void stm_spectrometr::readStmData()
 
 void stm_spectrometr::readGpsData()
 {
-      auto data = m_gps.readAll();
+    static QByteArray data;
+    auto temp_data = m_gps.readAll();
+    data.append(temp_data);
+    if(!temp_data.contains("\n"))return;
+      //if(data.size()==1)return;
+      qDebug()<<data;//<<data.size();
       QStringList allData;
       allData = QString(data).split("\n");
       for(int i=0;i<allData.count();i++){
-              if(allData[i].contains("$GPGGA")){
+              if(allData[i].contains("$GNGGA")){
                   QStringList data = allData[i].split(",");
-                  //qDebug()<<data<<data.size();
+                  qDebug()<<data;//<<data.size();
                   if(data.size()<10) {
                       emit lat_long_alt_updated("NA","NA","NA");
                       return;
@@ -163,6 +172,7 @@ void stm_spectrometr::readGpsData()
               }
           }
       emit save_gps(data);
+      data.clear();
 
 }
 
@@ -194,7 +204,7 @@ QString stm_spectrometr::parseNmea2grad(QString dm,QString nswe)
         dec_degrees = dm.mid(0,2).toInt();
         minutes = dm.mid(2,dm.length()-1).toFloat();
         my_deg = dec_degrees+(minutes/60)*plus_minus;
-        result = QString::number(static_cast<double>(my_deg),'g',8);
+        result = QString::number(static_cast<double>(my_deg),'g',3);
         //m_lattyNavi = static_cast<double>(my_deg);
         //m_latitude = result;
 
@@ -203,7 +213,7 @@ QString stm_spectrometr::parseNmea2grad(QString dm,QString nswe)
         dec_degrees = dm.mid(0,3).toInt();
         minutes = dm.mid(3,dm.length()-1).toFloat();
         my_deg = dec_degrees+(minutes/60)*plus_minus;
-        result = QString::number(static_cast<double>(my_deg),'g',8);
+        result = QString::number(static_cast<double>(my_deg),'g',3);
         //m_longyNavi = static_cast<double>(my_deg);
         //longitude = result;
     }
