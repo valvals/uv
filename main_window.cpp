@@ -74,7 +74,7 @@ MainWindow::MainWindow(QWidget *parent)
         //ui->pushButton_spectr->setText("disconnected");
     }
     start_capture_process();
-    //this->showFullScreen();
+    this->showFullScreen();
 
 }
 
