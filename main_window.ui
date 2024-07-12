@@ -347,6 +347,26 @@ color: black; background-color: red;
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QLabel" name="label_experiment_name">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>440</y>
+      <width>461</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 0, 0,128);
+color: rgb(170, 255, 0);</string>
+    </property>
+    <property name="text">
+     <string>ИМЯ ЭКСПЕРИМЕНТА</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
    <zorder>widget_plot</zorder>
    <zorder>comboBox_objects</zorder>
    <zorder>label_camera</zorder>
@@ -358,6 +378,7 @@ color: black; background-color: red;
    <zorder>pushButton_spectr</zorder>
    <zorder>comboBox_mode</zorder>
    <zorder>pushButton_spectr_create_new_experiment</zorder>
+   <zorder>label_experiment_name</zorder>
   </widget>
  </widget>
  <customwidgets>

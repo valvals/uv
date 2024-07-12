@@ -263,6 +263,7 @@ void MainWindow::on_pushButton_spectr_create_new_experiment_clicked()
     dir.mkdir(m_capture_gas_img_dir);
     dir.mkdir(m_capture_sky_dat_dir);
     dir.mkdir(m_capture_gas_dat_dir);
+    ui->label_experiment_name->setText(date_time_stamp+m_objects[ui->comboBox_objects->currentIndex()].toObject()["alias"].toString());
 }
 
 void MainWindow::update_long_lat_alt(QString lat, QString lng, QString alt)
